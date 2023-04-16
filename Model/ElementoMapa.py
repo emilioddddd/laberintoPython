@@ -3,6 +3,4 @@
 
 class ElementoMapa:
     """Este el component"""
-    def __init__(self):
-        self.entrar() = None
-
+    pass
