@@ -3,6 +3,6 @@
 
 class Laberinto:
     def __init__(self):
-        self.habitaciones = List()
-    def agragarHabitacion(self, hab):
+        self.habitaciones = []
+    def agregarHabitacion(self, hab):
         self.habitaciones.append(hab)

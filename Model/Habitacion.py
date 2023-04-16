@@ -3,7 +3,7 @@
 
 from ElementoMapa import ElementoMapa
 
-class Habitación(ElementoMapa):
+class Habitacion(ElementoMapa):
     """Este es concreateComplement"""
     def __init__(self, num):
         self.norte = None
