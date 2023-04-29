@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
+from subprocess import HIGH_PRIORITY_CLASS
 from Laberinto import Laberinto
 from Habitacion import Habitacion
 from Puerta import Puerta
@@ -10,6 +11,11 @@ from Bicho import Bicho
 from Modo import Modo
 from Agresivo import Agresivo
 from Perezoso import Perezoso
+from Norte import Norte
+from Sur import Sur
+from Este import Este
+from Oeste import Oeste
+from Armario import Armario
 
 class Juego:
     def __init__(self):
@@ -17,7 +23,13 @@ class Juego:
         self.bichos = []
 
     def fabriacarHabitacion(self, unNum):
-        hab = Habitacion(unNum)
+        hab = Habitacion()
+        hab.num = unNum
+        hab.ponerEnElemento((self.fabricarNorte()), (self.fabricarPared()))
+        hab.ponerEnElemento((self.fabricarSur()), (self.fabricarPared()))
+        hab.ponerEnElemento((self.fabricarOeste()), (self.fabricarPared()))
+        hab.ponerEnElemento((self.fabricarEste()), (self.fabricarPared()))
+        hab.hijos = []
         return hab
 
     def fabricarPared(self):
@@ -57,8 +69,30 @@ class Juego:
         bicho.posicion = unaHab
         return bicho
 
+    def fabricarNorte(self):
+        return Norte()
+
+    def fabricarSur(self):
+        return Sur()
+
+    def fabricarOeste(self):
+        return Oeste()
+
+    def fabricarEste(self):
+        return Este()
+
     def agregarBicho(self, unBicho):
         self.bichos.append(unBicho)
+
+    def fabricarArmario(self, unCont):
+        arm = Armario()
+
+        arm.ponerEnElemento((self.fabricarNorte()), (self.fabricarPared()))
+        arm.ponerEnElemento((self.fabricarSur()), (self.fabricarPared()))
+        arm.ponerEnElemento((self.fabricarOeste()), (self.fabricarPared()))
+        arm.ponerEnElemento((self.fabricarEste()), (self.fabricarPared()))
+
+        unCont.agregarHijo(arm)
 
     def laberinto2Habitaciones(self):
         self.laberinto=Laberinto()
@@ -230,10 +264,49 @@ class Juego:
         self.agregarBicho(self.fabricarBichoPerezosoPosicion(hab2))
         self.agregarBicho(self.fabricarBichoPerezosoPosicion(hab4))
 
+    def laberinto4HabitacionesArmarios(self):
+        self.laberinto= self.fabricarLaberinto()
+
+        hab1 = self.fabriacarHabitacion(1)
+        hab2 = self.fabriacarHabitacion(2)
+        hab3 = self.fabriacarHabitacion(3)
+        hab4 = self.fabriacarHabitacion(4)
+
+        self.fabricarArmario(hab1)
+        self.fabricarArmario(hab2)
+        self.fabricarArmario(hab3)
+        self.fabricarArmario(hab4)
+
+        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2)
+        prt2=self.fabricarPuertaLado1Lado2(hab1, hab3)
+        prt3=self.fabricarPuertaLado1Lado2(hab3, hab4)
+        prt4=self.fabricarPuertaLado1Lado2(hab4, hab2)
+        
+        n = self.fabricarNorte()
+        s = self.fabricarSur()
+        e = self.fabricarEste()
+        o = self.fabricarOeste()
+
+        hab1.ponerEnElemento(s, prt1)
+        hab1.ponerEnElemento(e, prt2)
+        hab2.ponerEnElemento(n, prt1)
+        hab2.ponerEnElemento(e, prt4)
+        hab3.ponerEnElemento(o, prt2) 
+        hab3.ponerEnElemento(s, prt3) 
+        hab4.ponerEnElemento(o, prt4) 
+        hab4.ponerEnElemento(n, prt4)
+
+        self.laberinto.agregarHabitacion(hab1)
+        self.laberinto.agregarHabitacion(hab2)
+        self.laberinto.agregarHabitacion(hab3)
+        self.laberinto.agregarHabitacion(hab4)
+
 
 
 juego = Juego()
-juego.laberinto4HabitacionesFMBichos()
+juego.laberinto4HabitacionesArmarios()
+print(dir(juego.laberinto.habitaciones[0]))
+print(juego.laberinto.habitaciones[0].hijos)
 for hab in juego.laberinto.habitaciones:
     print(hab.norte)
     hab.norte.entrar()
@@ -241,6 +314,7 @@ for hab in juego.laberinto.habitaciones:
     print(hab.oeste)
     print(hab.este)
     print(hab.num)
+    print(hab.hijos)
 
 for bichos in juego.bichos:
     print(bichos.modo)

@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 class Orientacion(object):
-    def ponerElementoEn(self, unEM, unaHab):
+    def ponerElementoEn(self, unHab, unEM):
         pass
 
 

@@ -3,12 +3,11 @@
 
 from Contenedor import Contenedor
 
-class Habitacion(Contenedor):
+class Armario(Contenedor):
     """Este es concreateComplement"""
     def __init__(self):
         pass
 
     def entrar(self):
-        print("Estas en la habitacion" + self.num)
-
+        print("Estas en el armario" + self.num)
 
