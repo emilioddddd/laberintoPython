@@ -9,3 +9,9 @@ class Puerta(ElementoMapa):
         self.lado1 = None
         self.lado2 = None
 
+    def entrar(self):
+        if self.abierta:
+            print("Puedes pasar al otro lado")
+        else:
+            print("No puedes pasar al otro lado")
+
