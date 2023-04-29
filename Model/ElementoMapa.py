@@ -2,5 +2,5 @@
 #-*- coding: utf-8 -*-
 
 class ElementoMapa:
-    """Este el component"""
-    pass
+    def entrar(self):
+        pass

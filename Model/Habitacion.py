@@ -12,3 +12,6 @@ class Habitacion(ElementoMapa):
         self.oeste = None
         self.num = num
 
+    def entrar(self):
+        print("Estas en la habitacion" + self.num)
+

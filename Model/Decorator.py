@@ -4,5 +4,8 @@
 from ElementoMapa import ElementoMapa
 
 class Decorator(ElementoMapa):
-    """Al añadir esto, luego me dejará hacer más cosas luego"""
-    pass
+    def __init__(self):
+        self.component = None
+
+    def entrar(self):
+        pass

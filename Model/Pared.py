@@ -5,4 +5,5 @@ from ElementoMapa import ElementoMapa
 
 class Pared(ElementoMapa):
     """Este es concreateComplement"""
-    pass
+    def entrar(self):
+        print("Te has chocado con la pared")
