@@ -6,10 +6,15 @@ from Habitacion import Habitacion
 from Puerta import Puerta
 from Pared import Pared
 from Bomba import Bomba
+from Bicho import Bicho
+from Modo import Modo
+from Agresivo import Agresivo
+from Perezoso import Perezoso
 
 class Juego:
     def __init__(self):
         self.laberinto=None
+        self.bichos = []
 
     def fabriacarHabitacion(self, unNum):
         hab = Habitacion(unNum)
@@ -29,6 +34,31 @@ class Juego:
 
     def fabricarBomba(self):
         return Bomba()
+
+    def fabricarModoPerzoso(self):
+        return Perezoso()
+
+    def fabricarModoAgresivo(self):
+        return Agresivo()
+
+    def fabricarBichoAgresivoPosicion(self, unaHab):
+        bicho = Bicho()
+        bicho.modo = self.fabricarModoAgresivo
+        bicho.vida = 10
+        bicho.poder = 10
+        bicho.posicion = unaHab
+        return bicho
+
+    def fabricarBichoPerezosoPosicion(self, unaHab):
+        bicho = Bicho()
+        bicho.modo = self.fabricarModoPerzoso
+        bicho.vida = 10
+        bicho.poder = 10
+        bicho.posicion = unaHab
+        return bicho
+
+    def agregarBicho(self, unBicho):
+        self.bichos.append(unBicho)
 
     def laberinto2Habitaciones(self):
         self.laberinto=Laberinto()
@@ -155,10 +185,55 @@ class Juego:
         self.laberinto.agregarHabitacion(hab3)
         self.laberinto.agregarHabitacion(hab4)
 
+    def laberinto4HabitacionesFMBichos(self):
+        self.laberinto= self.fabricarLaberinto()
+
+        hab1 = self.fabriacarHabitacion(1)
+        hab2 = self.fabriacarHabitacion(2)
+        hab3 = self.fabriacarHabitacion(3)
+        hab4 = self.fabriacarHabitacion(4)
+
+        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2)
+        prt2=self.fabricarPuertaLado1Lado2(hab1, hab3)
+        prt3=self.fabricarPuertaLado1Lado2(hab3, hab4)
+        prt4=self.fabricarPuertaLado1Lado2(hab4, hab2)
+
+        hab1.norte = self.fabricarPared()
+        hab1.este = prt2
+        hab1.oeste = self.fabricarPared()
+        hab1.sur = prt1
+ 
+        hab2.sur = self.fabricarPared()
+        #hab2.sur = self.fabricarPared() 
+        hab2.este = prt4
+        hab2.oeste = self.fabricarPared()
+        hab2.norte = prt1
+
+        hab3.sur = prt3
+        hab3.este = self.fabricarPared()
+        hab3.oeste = prt2
+        hab3.norte = self.fabricarPared()
+
+        hab4.sur = self.fabricarPared()
+        #hab4.sur = self.fabricarPared()
+        hab4.este = self.fabricarPared()
+        hab4.oeste = prt4
+        hab4.norte = prt3
+
+        self.laberinto.agregarHabitacion(hab1)
+        self.laberinto.agregarHabitacion(hab2)
+        self.laberinto.agregarHabitacion(hab3)
+        self.laberinto.agregarHabitacion(hab4)
+
+        self.agregarBicho(self.fabricarBichoAgresivoPosicion(hab1))
+        self.agregarBicho(self.fabricarBichoAgresivoPosicion(hab3))
+        self.agregarBicho(self.fabricarBichoPerezosoPosicion(hab2))
+        self.agregarBicho(self.fabricarBichoPerezosoPosicion(hab4))
+
 
 
 juego = Juego()
-juego.laberinto4HabitacionesFMBomba()
+juego.laberinto4HabitacionesFMBichos()
 for hab in juego.laberinto.habitaciones:
     print(hab.norte)
     hab.norte.entrar()
@@ -167,3 +242,6 @@ for hab in juego.laberinto.habitaciones:
     print(hab.este)
     print(hab.num)
 
+for bichos in juego.bichos:
+    print(bichos.modo)
+    print(bichos.posicion.num)
