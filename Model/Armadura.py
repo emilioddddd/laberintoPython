@@ -5,7 +5,7 @@ from Objeto import Objeto
 
 class Armadura(Objeto):
     def __init__(self):
-        self.poder = None
+        self.vida = None
 
     def ver(self):
-        print("Has visto una espada")
+        print("Has visto una armadura")

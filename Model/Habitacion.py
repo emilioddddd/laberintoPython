@@ -9,6 +9,6 @@ class Habitacion(Contenedor):
         pass
 
     def entrar(self):
-        print("Estas en la habitacion" + self.num)
+        print("Estas en la habitacion",self.num)
 
 

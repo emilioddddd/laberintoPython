@@ -19,6 +19,10 @@ from Armario import Armario
 from Grande import Grande
 from Peque import Peque
 from Hechizo import Hechizo
+from Espada import Espada
+from Armadura import Armadura
+from Fuego import Fuego
+from Electricidad import Electricidad
 
 
 class Juego:
@@ -66,6 +70,16 @@ class Juego:
     def fabricarHechizo(self):
         return Hechizo()
 
+    def fabricarHechizoFuego(self):
+        hechizo = Hechizo()
+        hechizo.tipoHechizo = Fuego()
+        return hechizo
+
+    def fabricarHechizoElectricidad(self):
+        hechizo = Hechizo()
+        hechizo.tipoHechizo = Electricidad()
+        return hechizo
+
     def fabricarModoPerzoso(self):
         return Perezoso()
 
@@ -110,8 +124,20 @@ class Juego:
         arm.ponerEnElemento((self.fabricarSur()), (self.fabricarPared()))
         arm.ponerEnElemento((self.fabricarOeste()), (self.fabricarPared()))
         arm.ponerEnElemento((self.fabricarEste()), (self.fabricarPared()))
+        
+        arm.hijos = []
 
         unCont.agregarHijo(arm)
+
+    def fabricarEspada(self):
+        esp = Espada()
+        esp.poder = 5
+        return esp
+
+    def fabricarArmadura(self):
+        arm = Armadura()
+        arm.vida = 5
+        return arm
 
     def laberinto2Habitaciones(self):
         self.laberinto=Laberinto()
@@ -333,13 +359,18 @@ class Juego:
         hab1 = self.fabriacarHabitacion(1)
         hab2 = self.fabriacarHabitacion(2)
         hab3 = self.fabriacarHabitacion(3)
-        hc1 = self.fabricarHechizo()
+        hc1 = self.fabricarHechizoFuego()
+        hc1.activa = True
         hc1.component = self.fabriacarHabitacion(4)
         #hab4 = self.fabriacarHabitacion(4)
         hab4 = hc1
 
+        bm1 = self.fabricarBombaPeque()
         self.fabricarArmario(hab2)
+        hab2.hijos[0].agregarHijo(bm1)
+        esp1 = self.fabricarEspada()
         self.fabricarArmario(hab3)
+        hab3.hijos[0].agregarHijo(esp1)
 
         prt1=self.fabricarPuertaLado1Lado2(hab1, hab2)
         prt1.abierta = True

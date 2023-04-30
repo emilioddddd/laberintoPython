@@ -6,15 +6,18 @@ from Juego import Juego
 class Main(object):
     def main(self):
         juego = Juego()
-        #juego.EjercicioCompositeDecorator()
+        juego.EjercicioCompositeDecorator()
         #juego.laberinto2Habitaciones()
         #juego.laberinto2HabitacionesFM()
         #juego.laberinto4HabitacionesFM()
         #juego.laberinto4HabitacionesFMBomba()
-        juego.laberinto4HabitacionesFMBichos()
+        #juego.laberinto4HabitacionesFMBichos()
         for hab in juego.laberinto.habitaciones:
+            print(hab)
+            hab.entrar()
             hab = self.component(hab)
             self.habitacion(hab)
+            print("")
             
 
         for bichos in juego.bichos:
@@ -27,9 +30,8 @@ class Main(object):
             return decorado
 
     def habitacion(self, habitacion):
-        print('\n',habitacion)
+        print(habitacion)
         print(habitacion.num)
-        print(habitacion.hijos)
         print(habitacion.norte)
         habitacion.norte.entrar()
         print(habitacion.sur)
@@ -38,6 +40,8 @@ class Main(object):
         habitacion.oeste.entrar()
         print(habitacion.este)
         habitacion.este.entrar()
+        print(habitacion.hijos)
+        self.contene(habitacion)
 
     def bich(self, bicho):
         print(bicho)
@@ -45,6 +49,14 @@ class Main(object):
         print(bicho.vida)
         print(bicho.poder)
         print(bicho.posicion.num)
+
+    def contene(self, cont):
+        if hasattr(cont, 'hijos'):
+            for h in cont.hijos:
+                print(h)
+     
+                self.contene(h)
+       
         
 
 mai = Main()

@@ -6,10 +6,11 @@ from Decorator import Decorator
 class Hechizo(Decorator):
     def __init__(self):
         self.activa = False
+        self.tipoHechizo = None
 
     def entrar(self):
         if self.activa:
-            print("Esta hechizado ")
+            self.tipoHechizo.entrar()
         else:
             self.component.entrar()
 
