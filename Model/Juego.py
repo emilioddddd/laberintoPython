@@ -16,6 +16,14 @@ from Sur import Sur
 from Este import Este
 from Oeste import Oeste
 from Armario import Armario
+from Grande import Grande
+from Peque import Peque
+from Hechizo import Hechizo
+from Espada import Espada
+from Armadura import Armadura
+from Fuego import Fuego
+from Electricidad import Electricidad
+
 
 class Juego:
     def __init__(self):
@@ -47,6 +55,31 @@ class Juego:
     def fabricarBomba(self):
         return Bomba()
 
+    def fabricarBombaGrande(self):
+        bomba = Bomba()
+        bomba.tipoBomba = Grande()
+        bomba.poder = 10
+        return bomba
+
+    def fabricarBombaPeque(self):
+        bomba = Bomba()
+        bomba.tipoBomba = Peque()
+        bomba.poder = 10
+        return bomba
+
+    def fabricarHechizo(self):
+        return Hechizo()
+
+    def fabricarHechizoFuego(self):
+        hechizo = Hechizo()
+        hechizo.tipoHechizo = Fuego()
+        return hechizo
+
+    def fabricarHechizoElectricidad(self):
+        hechizo = Hechizo()
+        hechizo.tipoHechizo = Electricidad()
+        return hechizo
+
     def fabricarModoPerzoso(self):
         return Perezoso()
 
@@ -56,7 +89,7 @@ class Juego:
     def fabricarBichoAgresivoPosicion(self, unaHab):
         bicho = Bicho()
         bicho.modo = self.fabricarModoAgresivo
-        bicho.vida = 10
+        bicho.vida = 5
         bicho.poder = 10
         bicho.posicion = unaHab
         return bicho
@@ -65,7 +98,7 @@ class Juego:
         bicho = Bicho()
         bicho.modo = self.fabricarModoPerzoso
         bicho.vida = 10
-        bicho.poder = 10
+        bicho.poder = 1
         bicho.posicion = unaHab
         return bicho
 
@@ -91,14 +124,30 @@ class Juego:
         arm.ponerEnElemento((self.fabricarSur()), (self.fabricarPared()))
         arm.ponerEnElemento((self.fabricarOeste()), (self.fabricarPared()))
         arm.ponerEnElemento((self.fabricarEste()), (self.fabricarPared()))
+        
+        arm.hijos = []
 
         unCont.agregarHijo(arm)
+
+    def fabricarEspada(self):
+        esp = Espada()
+        esp.poder = 5
+        return esp
+
+    def fabricarArmadura(self):
+        arm = Armadura()
+        arm.vida = 5
+        return arm
 
     def laberinto2Habitaciones(self):
         self.laberinto=Laberinto()
 
-        hab1 = Habitacion(1)
-        hab2 = Habitacion(2)
+        hab1 = Habitacion()
+        hab1.num = 1
+        hab1.hijos = []
+        hab2 = Habitacion()
+        hab2.num = 2
+        hab2.hijos = []
 
         puerta=Puerta()
         puerta.lado1=hab1
@@ -111,6 +160,9 @@ class Juego:
         hab2.sur=Pared()
         hab2.este = Pared()
         hab2.oeste=Pared()
+
+        hab1.sur = puerta
+        hab2.norte = puerta
 
         self.laberinto.agregarHabitacion(hab1)
         self.laberinto.agregarHabitacion(hab2)
@@ -187,8 +239,8 @@ class Juego:
         prt3=self.fabricarPuertaLado1Lado2(hab3, hab4)
         prt4=self.fabricarPuertaLado1Lado2(hab4, hab2)
 
-        bm1 = self.fabricarBomba()
-        bm2 = self.fabricarBomba()
+        bm1 = self.fabricarBombaGrande()
+        bm2 = self.fabricarBombaPeque()
 
         hab1.norte = self.fabricarPared()
         hab1.este = prt2
@@ -301,21 +353,73 @@ class Juego:
         self.laberinto.agregarHabitacion(hab3)
         self.laberinto.agregarHabitacion(hab4)
 
+    def EjercicioCompositeDecorator(self):
+        self.laberinto= self.fabricarLaberinto()
+
+        hab1 = self.fabriacarHabitacion(1)
+        hab2 = self.fabriacarHabitacion(2)
+        hab3 = self.fabriacarHabitacion(3)
+        hc1 = self.fabricarHechizoFuego()
+        hc1.activa = True
+        hc1.component = self.fabriacarHabitacion(4)
+        #hab4 = self.fabriacarHabitacion(4)
+        hab4 = hc1
+
+        bm1 = self.fabricarBombaPeque()
+        self.fabricarArmario(hab2)
+        hab2.hijos[0].agregarHijo(bm1)
+        esp1 = self.fabricarEspada()
+        self.fabricarArmario(hab3)
+        hab3.hijos[0].agregarHijo(esp1)
+
+        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2)
+        prt1.abierta = True
+        prt2=self.fabricarPuertaLado1Lado2(hab2, hab4)
+        prt2.abierta = True
+        bm1 = self.fabricarBombaGrande()
+        bm1.component = self.fabricarPuertaLado1Lado2(hab3, hab4)
+        #prt3=self.fabricarPuertaLado1Lado2(hab3, hab4)
+        prt3 = bm1
+        prt4=self.fabricarPuertaLado1Lado2(hab3, hab1)
+        
+        n = self.fabricarNorte()
+        s = self.fabricarSur()
+        e = self.fabricarEste()
+        o = self.fabricarOeste()
+
+        hab1.ponerEnElemento(e, prt1)
+        hab1.ponerEnElemento(s, prt4)
+        hab2.ponerEnElemento(o, prt1)
+        hab2.ponerEnElemento(s, prt2)
+        hab3.ponerEnElemento(n, prt4) 
+        hab3.ponerEnElemento(e, prt3) 
+        hab4.component.ponerEnElemento(o, prt3) 
+        hab4.component.ponerEnElemento(n, prt2)
+
+        self.laberinto.agregarHabitacion(hab1)
+        self.laberinto.agregarHabitacion(hab2)
+        self.laberinto.agregarHabitacion(hab3)
+        self.laberinto.agregarHabitacion(hab4)
 
 
+"""
 juego = Juego()
-juego.laberinto4HabitacionesArmarios()
-print(dir(juego.laberinto.habitaciones[0]))
-print(juego.laberinto.habitaciones[0].hijos)
+juego.EjercicioCompositeDecorator()
+#print(juego.laberinto.habitaciones[1].sur.activa)
+juego.laberinto.habitaciones[1].sur.activa = True
 for hab in juego.laberinto.habitaciones:
+    print(hab.num)
+    print(hab.hijos)
     print(hab.norte)
     hab.norte.entrar()
     print(hab.sur)
+    hab.sur.entrar()
     print(hab.oeste)
+    hab.oeste.entrar()
     print(hab.este)
-    print(hab.num)
-    print(hab.hijos)
+    hab.este.entrar()
 
 for bichos in juego.bichos:
     print(bichos.modo)
     print(bichos.posicion.num)
+"""
