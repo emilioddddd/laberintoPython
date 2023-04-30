@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Model"
+    "\\Model",
+    "\\playground"
   ],
-  "SelectedNode": "\\Model",
+  "SelectedNode": "\\playground\\PythonApplication2.sln",
   "PreviewInSolutionExplorer": false
 }
