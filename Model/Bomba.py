@@ -9,12 +9,14 @@ class Bomba(Decorator):
     ahora no hace falta habitacionBomba ni paredBomba porque
     """
     def __init__(self):
-        self.activa = None
+        self.activa = False
+        self.poder = None
+        self.tipoBomba = None
 
     def entrar(self):
         if self.activa == True:
-            print("La bomba ha explotado")
+            self.tipoBomba.entrar()
             self.activa = False
-        
-        return super().entrar()
+        else:
+            self.component.entrar()
 
