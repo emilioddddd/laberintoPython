@@ -10,7 +10,7 @@ class Contenedor(ElementoMapa):
         self.este = None
         self.oeste = None
         self.num = None
-        self.hijos = None
+        self.hijos = []
 
     def ponerEnElemento(self, unaOrientacion, unEM):
         unaOrientacion.ponerElementoEn(unEM, self)

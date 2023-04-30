@@ -75,7 +75,7 @@ class Juego:
     def fabricarBichoAgresivoPosicion(self, unaHab):
         bicho = Bicho()
         bicho.modo = self.fabricarModoAgresivo
-        bicho.vida = 10
+        bicho.vida = 5
         bicho.poder = 10
         bicho.posicion = unaHab
         return bicho
@@ -84,7 +84,7 @@ class Juego:
         bicho = Bicho()
         bicho.modo = self.fabricarModoPerzoso
         bicho.vida = 10
-        bicho.poder = 10
+        bicho.poder = 1
         bicho.posicion = unaHab
         return bicho
 
@@ -116,8 +116,12 @@ class Juego:
     def laberinto2Habitaciones(self):
         self.laberinto=Laberinto()
 
-        hab1 = Habitacion(1)
-        hab2 = Habitacion(2)
+        hab1 = Habitacion()
+        hab1.num = 1
+        hab1.hijos = []
+        hab2 = Habitacion()
+        hab2.num = 2
+        hab2.hijos = []
 
         puerta=Puerta()
         puerta.lado1=hab1
@@ -130,6 +134,9 @@ class Juego:
         hab2.sur=Pared()
         hab2.este = Pared()
         hab2.oeste=Pared()
+
+        hab1.sur = puerta
+        hab2.norte = puerta
 
         self.laberinto.agregarHabitacion(hab1)
         self.laberinto.agregarHabitacion(hab2)
