@@ -5,6 +5,7 @@ from Juego import Juego
 
 class Main(object):
     def main(self):
+        """
         juego = Juego()
         juego.EjercicioCompositeDecorator()
         #juego.laberinto2Habitaciones()
@@ -22,7 +23,7 @@ class Main(object):
 
         for bichos in juego.bichos:
             self.bich(bichos)
-
+"""
     def component(self, decorado):
         if hasattr(decorado, 'component'):
             return decorado.component
@@ -57,8 +58,22 @@ class Main(object):
      
                 self.contene(h)
        
-        
+main = Main()        
+juego = Juego()
+#juego.EjercicioCompositeDecorator()        
+#juego.laberinto2Habitaciones()
+#juego.laberinto2HabitacionesFM()
+#juego.laberinto4HabitacionesFM()
+#juego.laberinto4HabitacionesFMBomba()
+juego.laberinto4HabitacionesFMBichos()
+for hab in juego.laberinto.habitaciones:
+    print(hab)
+    hab.entrar()
+    hab = main.component(hab)        
+    main.habitacion(hab)        
+    print("\n ------------------------------------------------------------------------------")
+            
 
-mai = Main()
-mai.main()
+for bichos in juego.bichos:
+    main.bich(bichos)
 
