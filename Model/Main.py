@@ -4,8 +4,9 @@
 from Juego import Juego
 
 class Main(object):
+    """
     def main(self):
-        """
+       
         juego = Juego()
         juego.EjercicioCompositeDecorator()
         #juego.laberinto2Habitaciones()
@@ -23,7 +24,7 @@ class Main(object):
 
         for bichos in juego.bichos:
             self.bich(bichos)
-"""
+    """
     def component(self, decorado):
         if hasattr(decorado, 'component'):
             return decorado.component
