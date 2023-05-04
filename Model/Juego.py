@@ -43,10 +43,11 @@ class Juego:
     def fabricarPared(self):
         return Pared()
 
-    def fabricarPuertaLado1Lado2(self, hab1, hab2):
+    def fabricarPuertaLado1Lado2(self, hab1, hab2, abierta):
         puerta = Puerta()
         puerta.lado1=hab1
         puerta.lado2=hab2
+        puerta.abierta = abierta
         return puerta
 
     def fabricarLaberinto(self):
@@ -55,28 +56,36 @@ class Juego:
     def fabricarBomba(self):
         return Bomba()
 
-    def fabricarBombaGrande(self):
-        bomba = Bomba()
+    def fabricarBombaGrande(self, activa, component):
+        #bomba = Bomba()
+        bomba = self.fabricarBomba()
+        bomba.activa = activa
         bomba.tipoBomba = Grande()
         bomba.poder = 10
+        bomba.component = component
         return bomba
 
-    def fabricarBombaPeque(self):
-        bomba = Bomba()
+    def fabricarBombaPeque(self, activa, component):
+        #bomba = Bomba()
+        bomba = self.fabricarBomba()
+        bomba.activa = activa
         bomba.tipoBomba = Peque()
         bomba.poder = 10
+        bomba.component = component
         return bomba
 
     def fabricarHechizo(self):
         return Hechizo()
 
     def fabricarHechizoFuego(self):
-        hechizo = Hechizo()
+        #hechizo = Hechizo()
+        hechizo = self.fabricarHechizo()
         hechizo.tipoHechizo = Fuego()
         return hechizo
 
     def fabricarHechizoElectricidad(self):
-        hechizo = Hechizo()
+        #hechizo = Hechizo()
+        hechizo = self.fabricarHechizo()
         hechizo.tipoHechizo = Electricidad()
         return hechizo
 
@@ -88,7 +97,7 @@ class Juego:
 
     def fabricarBichoAgresivoPosicion(self, unaHab):
         bicho = Bicho()
-        bicho.modo = self.fabricarModoAgresivo
+        bicho.modo = self.fabricarModoAgresivo()
         bicho.vida = 5
         bicho.poder = 10
         bicho.posicion = unaHab
@@ -96,7 +105,7 @@ class Juego:
 
     def fabricarBichoPerezosoPosicion(self, unaHab):
         bicho = Bicho()
-        bicho.modo = self.fabricarModoPerzoso
+        bicho.modo = self.fabricarModoPerzoso()
         bicho.vida = 10
         bicho.poder = 1
         bicho.posicion = unaHab
@@ -173,7 +182,7 @@ class Juego:
         hab1 = self.fabriacarHabitacion(1)
         hab2 = self.fabriacarHabitacion(2)
 
-        puerta=self.fabricarPuertaLado1Lado2(hab1, hab2)
+        puerta=self.fabricarPuertaLado1Lado2(hab1, hab2, False)
 
         hab1.norte = self.fabricarPared()
         hab1.este = self.fabricarPared()
@@ -196,10 +205,10 @@ class Juego:
         hab3 = self.fabriacarHabitacion(3)
         hab4 = self.fabriacarHabitacion(4)
 
-        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2)
-        prt2=self.fabricarPuertaLado1Lado2(hab1, hab3)
-        prt3=self.fabricarPuertaLado1Lado2(hab3, hab4)
-        prt4=self.fabricarPuertaLado1Lado2(hab4, hab2)
+        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2, False)
+        prt2=self.fabricarPuertaLado1Lado2(hab1, hab3, False)
+        prt3=self.fabricarPuertaLado1Lado2(hab3, hab4, False)
+        prt4=self.fabricarPuertaLado1Lado2(hab4, hab2, False)
 
         hab1.norte = self.fabricarPared()
         hab1.este = prt2
@@ -234,20 +243,20 @@ class Juego:
         hab3 = self.fabriacarHabitacion(3)
         hab4 = self.fabriacarHabitacion(4)
 
-        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2)
-        prt2=self.fabricarPuertaLado1Lado2(hab1, hab3)
-        prt3=self.fabricarPuertaLado1Lado2(hab3, hab4)
-        prt4=self.fabricarPuertaLado1Lado2(hab4, hab2)
+        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2, False)
+        prt2=self.fabricarPuertaLado1Lado2(hab1, hab3, False)
+        prt3=self.fabricarPuertaLado1Lado2(hab3, hab4, False)
+        prt4=self.fabricarPuertaLado1Lado2(hab4, hab2, False)
 
-        bm1 = self.fabricarBombaGrande()
-        bm2 = self.fabricarBombaPeque()
+        bm1 = self.fabricarBombaGrande(True, self.fabricarPared())
+        bm2 = self.fabricarBombaPeque(True, self.fabricarPared())
 
         hab1.norte = self.fabricarPared()
         hab1.este = prt2
         hab1.oeste = self.fabricarPared()
         hab1.sur = prt1
 
-        bm1.component = self.fabricarPared() 
+        #bm1.component = self.fabricarPared() 
         hab2.sur = bm1
         #hab2.sur = self.fabricarPared() 
         hab2.este = prt4
@@ -259,7 +268,7 @@ class Juego:
         hab3.oeste = prt2
         hab3.norte = self.fabricarPared()
 
-        bm2.component = self.fabricarPared()
+        #bm2.component = self.fabricarPared()
         hab4.sur = bm2
         #hab4.sur = self.fabricarPared()
         hab4.este = self.fabricarPared()
@@ -279,10 +288,10 @@ class Juego:
         hab3 = self.fabriacarHabitacion(3)
         hab4 = self.fabriacarHabitacion(4)
 
-        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2)
-        prt2=self.fabricarPuertaLado1Lado2(hab1, hab3)
-        prt3=self.fabricarPuertaLado1Lado2(hab3, hab4)
-        prt4=self.fabricarPuertaLado1Lado2(hab4, hab2)
+        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2, True)
+        prt2=self.fabricarPuertaLado1Lado2(hab1, hab3, True)
+        prt3=self.fabricarPuertaLado1Lado2(hab3, hab4, True)
+        prt4=self.fabricarPuertaLado1Lado2(hab4, hab2, True)
 
         hab1.norte = self.fabricarPared()
         hab1.este = prt2
@@ -365,22 +374,22 @@ class Juego:
         #hab4 = self.fabriacarHabitacion(4)
         hab4 = hc1
 
-        bm1 = self.fabricarBombaPeque()
+        bm1 = self.fabricarBombaPeque(False, None)
         self.fabricarArmario(hab2)
         hab2.hijos[0].agregarHijo(bm1)
         esp1 = self.fabricarEspada()
         self.fabricarArmario(hab3)
         hab3.hijos[0].agregarHijo(esp1)
 
-        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2)
-        prt1.abierta = True
-        prt2=self.fabricarPuertaLado1Lado2(hab2, hab4)
-        prt2.abierta = True
-        bm1 = self.fabricarBombaGrande()
-        bm1.component = self.fabricarPuertaLado1Lado2(hab3, hab4)
+        prt1=self.fabricarPuertaLado1Lado2(hab1, hab2, True)
+        #prt1.abierta = True
+        prt2=self.fabricarPuertaLado1Lado2(hab2, hab4, True)
+        #prt2.abierta = True
+        bm1 = self.fabricarBombaGrande(False, self.fabricarPuertaLado1Lado2(hab3, hab4, False))
+        #bm1.component = self.fabricarPuertaLado1Lado2(hab3, hab4, False)
         #prt3=self.fabricarPuertaLado1Lado2(hab3, hab4)
         prt3 = bm1
-        prt4=self.fabricarPuertaLado1Lado2(hab3, hab1)
+        prt4=self.fabricarPuertaLado1Lado2(hab3, hab1, False)
         
         n = self.fabricarNorte()
         s = self.fabricarSur()
