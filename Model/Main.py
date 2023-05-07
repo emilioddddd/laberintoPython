@@ -61,12 +61,12 @@ class Main(object):
        
 main = Main()        
 juego = Juego()
-#juego.EjercicioCompositeDecorator()        
+juego.EjercicioCompositeDecorator()        
 #juego.laberinto2Habitaciones()
 #juego.laberinto2HabitacionesFM()
 #juego.laberinto4HabitacionesFM()
 #juego.laberinto4HabitacionesFMBomba()
-juego.laberinto4HabitacionesFMBichos()
+#juego.laberinto4HabitacionesFMBichos()
 for hab in juego.laberinto.habitaciones:
     print(hab)
     hab.entrar()

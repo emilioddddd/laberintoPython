@@ -1,6 +1,8 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-class Objeto:
+from Hoja import Hoja
+
+class Objeto(Hoja):
     def __init__(self):
         self.padre = None
