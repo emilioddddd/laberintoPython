@@ -1,7 +1,9 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-class TipoHechizo(object):
+from Hechizo import Hechizo
+
+class TipoHechizo(Hechizo):
     pass
 
 
